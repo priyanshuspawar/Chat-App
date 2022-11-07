@@ -1,75 +1,41 @@
-import React, { useEffect, useCallback, useState, useLayoutEffect } from 'react';
-import { View, Text, StyleSheet, TouchableOpacity } from 'react-native';
-import { Avatar } from 'react-native-elements';
-import auth from '@react-native-firebase/auth';
-import { GiftedChat } from 'react-native-gifted-chat';
+import { StyleSheet, Text, View } from 'react-native'
+import React, { useEffect } from 'react'
+import firestore from '@react-native-firebase/firestore';
+
 
 const Chat = (props:any) => {
-    const [messages, setMessages] = useState([]);
-    const signOutNow = () => {
-        auth().signOut()
-        .then(() => {
-            props.navigation.replace('Login');
-        }).catch((error) => {
-            // An error happened.
-        });
-    }
-    useLayoutEffect(() => {
-        props.navigation.setOptions({
-            headerLeft: () => (
-                <View style={{ marginLeft: 20 }}>
-                    <Avatar
-                        rounded
-                        source={{
-                            uri:auth().currentUser?.photoURL
-                        }}
-                    />
-                </View>
-            ),
-            headerRight: () => (
-                <TouchableOpacity style={{
-                    marginRight: 10
-                }}
-                    onPress={signOutNow}
-                >
-                    <Text>logout</Text>
-                </TouchableOpacity>
-            )
-        })
-    }, [props.navigation]);
+    // const usersCollection = firestore().collection("");
+    
+    // console.log(usersCollection);
+    const {uid}=props.route.params;
+    console.log(uid);
+    // React.useEffect(()=>{
+    //     firestore()
+    //     .collection("Users")
+    //     .add({
+    //         Name:"Roger",
+    //         Age:19
+    //     })
+    //     .then(()=>{console.log("data added");})
+    //     .catch((error)=>{console.log(error);})
+    // },[uid])
 
+    // React.useEffect(()=>{
+    //     firestore()
+    //     .collection("Users")
+    //     .get()
+    //     .then((querySnapshot)=>{console.log(querySnapshot)})
+    //     .catch((error)=>{console.log(error);
+    //     })
+    // },[])
 
-    useEffect(() => {
-        setMessages([
-            {
-                _id: 1,
-                text: 'Hello developer',
-                createdAt: new Date(),
-                user: {
-                    _id: 2,
-                    name: 'React Native',
-                    avatar: 'https://placeimg.com/140/140/any',
-                },
-            }, 
-        ])
-    }, []);
-
-
-    const onSend = useCallback((messages = []) => {
-        setMessages(previousMessages => GiftedChat.append(previousMessages, messages))
-    }, []);
-    return (
-        <GiftedChat
-            messages={messages}
-            showAvatarForEveryMessage={true}
-            onSend={messages => onSend(messages)}
-            user={{
-                _id: auth()?.currentUser?.email,
-                name: auth()?.currentUser?.displayName,
-                avatar: auth()?.currentUser?.photoURL
-            }}
-        />
-    );
+  return (
+    <View>
+      <Text>index</Text>
+    </View>
+  )
 }
 
-export default Chat;
+export default Chat
+
+const styles = StyleSheet.create({})

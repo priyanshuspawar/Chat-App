@@ -1,4 +1,4 @@
-import { StyleSheet, Text, View,Pressable } from 'react-native'
+import { StyleSheet, Text, View,Pressable, TouchableOpacity } from 'react-native'
 import React from 'react'
 import InputField from "../../Components/InputField"
 import { fullWidth, vh,vw } from '../../utils/dimension'
@@ -19,10 +19,9 @@ const LoginScreen = (props:any) => {
         auth()
         .signInWithEmailAndPassword(mail,password)
         .then(()=>{
-          console.log("working");
-        //   dispatch(EmailAction(mail));
-        //   dispatch(PassAction(password));
-          props.navigation.replace('chat');
+          console.log("logged in ");
+
+          props.navigation.replace('Home',{uid:auth().currentUser?.uid});
         })
         .catch((error)=>{
           console.log(error.code);
@@ -118,7 +117,9 @@ const LoginScreen = (props:any) => {
             
          <View style={{flexDirection:"row",justifyContent:"center",marginTop:vh(70)}}>   
         <Text style={{color:"#a0a0a0"}}>Don't have an account? </Text>
+        <TouchableOpacity onPress={()=>{props.navigation.navigate("SignUp")}}>
         <Text style={{fontWeight:"700",color:"#000000"}}>Create</Text>
+        </TouchableOpacity>
         </View>
     </View>
   )
@@ -145,7 +146,7 @@ const styles = StyleSheet.create({
     },
     topgrad:{
         width:fullWidth,
-        height:150,borderBottomRightRadius:vh(50),borderBottomLeftRadius:vh(50),
+        height:120,borderBottomRightRadius:vh(50),borderBottomLeftRadius:vh(50),
         alignItems:"center",justifyContent:"center"
     }
 })
